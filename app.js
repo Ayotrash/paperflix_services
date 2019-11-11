@@ -6,10 +6,10 @@ var createError  = require('http-errors')
 
 var mongoConnection = require('./config/mongodb-connection')
 
-var indexRouter = require('./routes/index');
+var authRouter = require('./routes/auth');
 var usersRouter = require('./routes/users');
 
-console.log(process.env.ENVIRONMENT)
+console.log(`stage: [${process.env.ENVIRONMENT}]`)
 mongoConnection(process.env.ENVIRONMENT)
 
 var app = express();
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/', indexRouter);
+app.use('/v1', authRouter);
 app.use('/users', usersRouter);
 
 app.use(function(req, res, next) {
