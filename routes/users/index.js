@@ -1,10 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var authenticationMiddleware = require('../../utils/authenticationMiddleware')
-
-router.post('/users', authenticationMiddleware, function(req, res, next) {
-    res.send('/users is existed.')
+router.post('/users', function(req, res, next) {
+    res.send('/users is existed. ' + JSON.stringify(req.user_data))
 })
 
 module.exports = router

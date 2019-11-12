@@ -1,15 +1,14 @@
 const jwt = require('jsonwebtoken');
+const { client_error_unauthorized } = require('./responser');
 
 module.exports = (req, res, next) => {
     try {
         const token = req.get('Authorization').split(" ")[1];
         const decoded = jwt.verify(token, 'test_password');
         console.log(decoded)
-        req.userData = decoded;
+        req.user_data = decoded;
         next();
     } catch (error) {
-        return res.status(401).json({
-            message: 'Auth failed'
-        });
+        return res.send(client_error_unauthorized('Please login to get a recources.'))
     }
 };
