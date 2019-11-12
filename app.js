@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/v1', authRouter);
-app.use('/users', usersRouter);
+app.use('/v1', usersRouter);
 
 app.use(function(req, res, next) {
     next(createError(404, 'Recources not found.'))

@@ -63,6 +63,10 @@ const Users = mongoose.Schema({
         start_date: Date,
         end_date: Date,
     }],
+    site_links: [{
+        label: String,
+        link: String
+    }],
     address: {
         country: { type: String },
         state: { type: String },
