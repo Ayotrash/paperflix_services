@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
-const AuthModel = require('./model');
+const jwt = require('jsonwebtoken');
+const now = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
+const UsersModel = require('../../models/Users');
 
 const { success_created, client_error_not_allowed, client_error_not_acceptable } = require('../../utils/responser')
 
 exports._addUserToDB = data => {
-    const registeredUser = new AuthModel({
+    const registeredUser = new UsersModel({
         firstname: data.firstname,
         lastname: data.lastname,
         auth: {
@@ -13,14 +15,30 @@ exports._addUserToDB = data => {
         },
         gender: data.gender,
         avatar: data.avatar,
-        device_info: data.device_info
+        logged_devices: [{
+            logged_in: {
+                is_logged: true,
+                logged_at: now
+            },
+            device_info: data.device_info
+        }]
     })
 
     const result = registeredUser.save()
       .then(res => {
+          const token = jwt.sign({
+              email: data.email,
+              userId: res._id
+          }, "test_password", { expiresIn: "3h" })
+
+          const dataPayload = {
+              user_id: res._id,
+              token: token
+          }
+
           return success_created(
               `Welcome ${res.firstname}, don't forget to confirmation your email.`,
-              res._id
+              dataPayload
           )
       })
       .catch(err => {
