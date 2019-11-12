@@ -18,6 +18,7 @@ exports._addUserToDB = data => {
           return res
       })
       .catch(err => {
+          console.log(err)
           return err
       })
     
