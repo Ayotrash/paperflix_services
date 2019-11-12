@@ -3,10 +3,18 @@ const keys = require('./keys');
 
 function mongoConnection(env) {
   if (env == 'development') {
-    mongoose.connect(keys.dev_uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(keys.dev_uri, { 
+      useNewUrlParser: true, 
+      useUnifiedTopology: true,
+      useCreateIndex: true
+    });
     console.log('MongoDB for Development was connected');
   } else {
-    mongose.connect(keys.prod_uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongose.connect(keys.prod_uri, { 
+      useNewUrlParser: true, 
+      useUnifiedTopology: true,
+      useCreateIndex: true 
+    });
     console.log('MongoDB for Production was connected');
   }
 }
