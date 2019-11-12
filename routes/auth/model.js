@@ -10,6 +10,7 @@ const Auth = mongoose.Schema({
     },
     gender: { type: String, enum: ['male', 'female'], required: true },
     avatar: { type: String },
+    device_info: { type: Array, default: [] },
     is_active: { type: Boolean, default: true },
     is_verfied: { type: Boolean, default: false },
     is_premium: { type: Boolean, default: false },
