@@ -10,11 +10,12 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
 const { 
     success_created, 
+    success_accepted,
     client_error_not_allowed, 
     client_error_not_acceptable 
 } = require('../../utils/responser')
 
-exports._addUserToDB = data => {
+exports._register = data => {
     const registeredUser = new UsersModel({
         firstname: data.firstname,
         lastname: data.lastname,
@@ -94,4 +95,43 @@ exports._addUserToDB = data => {
       })
     
     return result
+}
+
+exports._verify = token => {
+    console.log("Calling verify!")
+
+    const checkToken = () => {
+        let decoded = jwt.verify(token, process.env.JWT_KEY, function(err, res) {
+            if(err) {
+                return err
+            } else {
+                return res
+            }
+        })
+
+        return decoded
+    }
+
+    const tokenChecked = checkToken()
+
+    if (tokenChecked.name == "TokenExpiredError") {
+        return client_error_not_allowed('Token expired.')
+    } else {
+        let finalResult = UsersModel.findByIdAndUpdate(
+            tokenChecked.userId,
+            { is_verified: true },
+            { new: true }
+        )
+        .then(response => {
+            let dataPayload = {
+                is_verified: response.is_verified
+            }
+            return success_accepted('You have been verified your email.', dataPayload)
+        })
+        .catch(error => {
+            return client_error_not_allowed('Error')
+        })
+
+        return finalResult
+    }
 }

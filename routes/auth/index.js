@@ -3,14 +3,23 @@ const Promise = require('bluebird');
 
 var router = express.Router();
 
-const { _addUserToDB } = require('./controller');
+const { _register, _verify } = require('./controller');
 
 router.post('/register', function(req, res, next) {
     Promise.try(() => {
-        const userAdded = _addUserToDB(req.body)
+        const userAdded = _register(req.body)
         return userAdded
     })
-    .then(response => res.send(response))
+    .then(response => res.status(response.statusCode).json(response))
+    .catch(error => res.send(error))
+})
+
+router.get('/verify', function(req, res, next) {
+    Promise.try(() => {
+        const verified = _verify(req.query.token)
+        return verified
+    })
+    .then(response => res.status(response.statusCode).json(response))
     .catch(error => res.send(error))
 })
 
