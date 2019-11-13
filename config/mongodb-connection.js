@@ -6,14 +6,16 @@ function mongoConnection(env) {
     mongoose.connect(keys.dev_uri, { 
       useNewUrlParser: true, 
       useUnifiedTopology: true,
-      useCreateIndex: true
+      useCreateIndex: true,
+      useFindAndModify: false
     });
     console.log('MongoDB for Development was connected');
   } else {
     mongose.connect(keys.prod_uri, { 
       useNewUrlParser: true, 
       useUnifiedTopology: true,
-      useCreateIndex: true 
+      useCreateIndex: true,
+      useFindAndModify: false
     });
     console.log('MongoDB for Production was connected');
   }
