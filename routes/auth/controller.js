@@ -36,7 +36,7 @@ exports._register = data => {
     const sendEmailVerification = (userData, token) => {
         let emailPath = path.join(__dirname, '..', '..', 'templates', 'confirmation_email', 'html.ejs')
         let emailDir  = fs.readFileSync(emailPath, { encoding: 'utf-8' })
-        let emailTemplate = ejs.render(emailDir, { firstname: 'Adit', token: `http://localhost:3000/v1/verify?token=${token}` })
+        let emailTemplate = ejs.render(emailDir, { firstname: userData.firstname, token: `http://localhost:3000/v1/verify?token=${token}` })
         console.log(emailTemplate)
 
         let msg = {
