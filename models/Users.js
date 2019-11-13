@@ -83,7 +83,7 @@ const Users = mongoose.Schema({
         address: { type: String }
     },
     is_active: { type: Boolean, default: true },
-    is_verfied: { type: Boolean, default: false },
+    is_verified: { type: Boolean, default: false },
     is_premium: { type: Boolean, default: false },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now }
