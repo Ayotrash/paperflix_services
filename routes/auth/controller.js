@@ -1,4 +1,3 @@
-const mongoose      = require('mongoose');
 const jwt           = require('jsonwebtoken');
 const now           = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
 const sgMail        = require('@sendgrid/mail');
@@ -34,14 +33,14 @@ exports._register = data => {
         }]
     })
 
-    const sendEmailVerification = (to, token) => {
+    const sendEmailVerification = (userData, token) => {
         let emailPath = path.join(__dirname, '..', '..', 'templates', 'confirmation_email', 'html.ejs')
         let emailDir  = fs.readFileSync(emailPath, { encoding: 'utf-8' })
-        let emailTemplate = ejs.render(emailDir)
+        let emailTemplate = ejs.render(emailDir, { firstname: 'Adit', token: `http://localhost:3000/v1/verify?token=${token}` })
         console.log(emailTemplate)
 
         let msg = {
-            to: `${to}`,
+            to: `${userData.email}`,
             from: 'muhammadfuadwork@gmail.com',
             subject: 'Sending with Twilio SendGrid is Fun',
             text: 'and easy to do anywhere, even with Node.js',
@@ -59,17 +58,22 @@ exports._register = data => {
 
     const result = registeredUser.save()
       .then(res => {
-          const token = jwt.sign({
+          const registerToken = jwt.sign({
               email: data.email,
               userId: res._id
           }, process.env.JWT_KEY, { expiresIn: "3h" })
 
+          const verifyAccountToken = jwt.sign({
+              email: data.email,
+              userId: res._id
+          }, process.env.JWT_KEY, { expiresIn: "1h" })
+
           const dataPayload = {
               user_id: res._id,
-              token: token
+              token: registerToken
           }
 
-          sendEmailVerification(data.email)
+          sendEmailVerification(data, verifyAccountToken)
 
           return success_created(
               `Welcome ${res.firstname}, don't forget to confirmation your email.`,
