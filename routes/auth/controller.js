@@ -2,7 +2,6 @@ const mongoose      = require('mongoose');
 const jwt           = require('jsonwebtoken');
 const now           = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
 const sgMail        = require('@sendgrid/mail');
-const EmailTemplate = require('email-templates-v2').EmailTemplate;
 const path          = require('path');
 const ejs           = require('ejs');
 const fs            = require('fs');
