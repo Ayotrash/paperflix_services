@@ -148,7 +148,7 @@ exports._logout = (userId, deviceId) => {
         { new: true }
     )
     .then(response => {
-        return success_accepted(`Logged out from ${response.logged_devices[].device_info.name}`, response)
+        return success_accepted(`Success logged out from device id: ${deviceId}`, null)
     })
     .catch(error => {
         console.log(error)
