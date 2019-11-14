@@ -1,9 +1,9 @@
-const jwt           = require('jsonwebtoken');
-const now           = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
-const sgMail        = require('@sendgrid/mail');
-const path          = require('path');
-const ejs           = require('ejs');
-const fs            = require('fs');
+const jwt    = require('jsonwebtoken');
+const now    = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
+const sgMail = require('@sendgrid/mail');
+const path   = require('path');
+const ejs    = require('ejs');
+const fs     = require('fs');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
@@ -11,7 +11,8 @@ const {
     success_created, 
     success_accepted,
     client_error_not_allowed, 
-    client_error_not_acceptable 
+    client_error_not_acceptable,
+    server_error_internal
 } = require('../../utils/responser')
 
 exports._register = data => {
@@ -37,7 +38,6 @@ exports._register = data => {
         let emailPath = path.join(__dirname, '..', '..', 'templates', 'confirmation_email', 'html.ejs')
         let emailDir  = fs.readFileSync(emailPath, { encoding: 'utf-8' })
         let emailTemplate = ejs.render(emailDir, { firstname: userData.firstname, token: `http://localhost:3000/v1/verify?token=${token}` })
-        console.log(emailTemplate)
 
         let msg = {
             to: `${userData.email}`,
@@ -51,7 +51,8 @@ exports._register = data => {
             if(err) {
                 console.log(err)
             } else {
-                console.log(result)
+                /* console.log(result) */
+                return
             }
         })
     }
@@ -138,4 +139,21 @@ exports._verify = token => {
 
         return finalResult
     }
+}
+
+exports._logout = (userId, deviceId) => {
+    const finalResult = UsersModel.findOneAndUpdate(
+        { "_id": userId, "logged_devices._id": deviceId  },
+        { "$set": { "logged_devices.$.logged_in.is_logged": false } },
+        { new: true }
+    )
+    .then(response => {
+        return success_accepted(`Logged out from ${response.logged_devices[].device_info.name}`, response)
+    })
+    .catch(error => {
+        console.log(error)
+        return server_error_internal("We're sorry, you can't log out right now because internal server error.")
+    })
+
+    return finalResult
 }
