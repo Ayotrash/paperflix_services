@@ -4,6 +4,7 @@ const sgMail = require('@sendgrid/mail');
 const path   = require('path');
 const ejs    = require('ejs');
 const fs     = require('fs');
+const { createModel }     = require('mongoose-gridfs');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
@@ -156,4 +157,8 @@ exports._logout = (userId, deviceId) => {
     })
 
     return finalResult
+}
+
+exports._uploadImageTest = file => {
+    res.send('Test upload image.')
 }
