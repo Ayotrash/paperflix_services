@@ -160,5 +160,22 @@ exports._logout = (userId, deviceId) => {
 }
 
 exports._uploadImageTest = file => {
-    res.send('Test upload image.')
+    const attachment = createModel()
+    const imageFile = fs.createReadStream(file)
+
+    let result
+
+    const imageUploaded = attachment.write({ filename: file, contentType: 'image/jpeg' },
+      imageFile, (err, payload) => {
+          if(err) {
+              console.log(err)
+              result = client_error_not_acceptable(err)
+          } else {
+              console.log(payload)
+              result = success_created('Success upload an image', payload)
+          }
+      }
+    )
+
+    return result
 }
