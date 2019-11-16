@@ -5,7 +5,6 @@ var router = express.Router();
 /* const { singleUpload } = require('../../config/mongodb-storage-connection') */
 
 const { _register, _verify, _logout, _avatar } = require('./controller');
-const { success_created, client_error_not_acceptable } = require('../../utils/responser')
 
 router.post('/register', function(req, res, next) {
     Promise.try(() => {

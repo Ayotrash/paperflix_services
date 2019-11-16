@@ -13,7 +13,6 @@ var usersRouter = require('./routes/users');
 
 console.log(`stage: [${process.env.ENVIRONMENT}]`)
 mongoConnection(process.env.ENVIRONMENT)
-console.log(mongoose.connection)
 
 var app = express();
 

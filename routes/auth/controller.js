@@ -4,8 +4,7 @@ const sgMail = require('@sendgrid/mail');
 const path   = require('path');
 const ejs    = require('ejs');
 const fs     = require('fs');
-const mongoose = require('mongoose')
-const { createModel } = require('mongoose-gridfs');
+const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
