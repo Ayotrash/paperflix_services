@@ -4,8 +4,9 @@ const sgMail = require('@sendgrid/mail');
 const path   = require('path');
 const ejs    = require('ejs');
 const fs     = require('fs');
+const multer = require('multer');
 const mongoose = require('mongoose');
-const Grid = require('gridfs-stream');
+const GridFsStorage = require('multer-gridfs-storage');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
@@ -160,16 +161,6 @@ exports._logout = (userId, deviceId) => {
     return finalResult
 }
 
-exports._avatar = file => {
-    const gfs = Grid(mongoose.connection.db, mongoose.mongo)
-    console.log(gfs)
-    let writeStream = gfs.createWriteStream({
-        filename: file
-    })
-
-    writeStream.on('close', function(result) {
-        console.log(result)
-    })
-
-    return success_created('Test')
-}
+exports._uploadAvatar = multer({
+    dest: 'uploads/'
+})
