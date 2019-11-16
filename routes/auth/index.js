@@ -2,8 +2,10 @@ const express = require('express');
 const Promise = require('bluebird');
 
 var router = express.Router();
+/* const { singleUpload } = require('../../config/mongodb-storage-connection') */
 
-const { _register, _verify, _logout, _uploadImageTest } = require('./controller');
+const { _register, _verify, _logout, _avatar } = require('./controller');
+const { success_created, client_error_not_acceptable } = require('../../utils/responser')
 
 router.post('/register', function(req, res, next) {
     Promise.try(() => {
@@ -32,11 +34,10 @@ router.put('/logout', function(req, res, next) {
     .catch(error => res.send(error))
 })
 
-router.post('/upload', function(req, res, next) {
+router.post('/avatar', function(req, res, next) {
     Promise.try(() => {
-        const uploadedImage = _uploadImageTest(req.body.image)
-        console.log(req.body.image)
-        return uploadedImage
+        const fileUploaded = _avatar(req.body.avatar)
+        return fileUploaded
     })
     .then(response => res.status(response.statusCode).json(response))
     .catch(error => res.send(error))

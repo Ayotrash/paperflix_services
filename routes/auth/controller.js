@@ -4,7 +4,9 @@ const sgMail = require('@sendgrid/mail');
 const path   = require('path');
 const ejs    = require('ejs');
 const fs     = require('fs');
-const { createModel }     = require('mongoose-gridfs');
+const mongoose = require('mongoose')
+const { createModel } = require('mongoose-gridfs');
+const Grid = require('gridfs-stream');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
@@ -159,23 +161,16 @@ exports._logout = (userId, deviceId) => {
     return finalResult
 }
 
-exports._uploadImageTest = file => {
-    const attachment = createModel()
-    const imageFile = fs.createReadStream(file)
+exports._avatar = file => {
+    const gfs = Grid(mongoose.connection.db, mongoose.mongo)
+    console.log(gfs)
+    let writeStream = gfs.createWriteStream({
+        filename: file
+    })
 
-    let result
+    writeStream.on('close', function(result) {
+        console.log(result)
+    })
 
-    const imageUploaded = attachment.write({ filename: file, contentType: 'image/jpeg' },
-      imageFile, (err, payload) => {
-          if(err) {
-              console.log(err)
-              result = client_error_not_acceptable(err)
-          } else {
-              console.log(payload)
-              result = success_created('Success upload an image', payload)
-          }
-      }
-    )
-
-    return result
+    return success_created('Test')
 }

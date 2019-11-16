@@ -3,6 +3,7 @@ var express      = require('express');
 var cookieParser = require('cookie-parser');
 var logger       = require('morgan');
 var createError  = require('http-errors')
+var mongoose = require('mongoose')
 
 var authenticationMiddleware = require('./utils/authenticationMiddleware')
 var mongoConnection = require('./config/mongodb-connection')
@@ -12,6 +13,7 @@ var usersRouter = require('./routes/users');
 
 console.log(`stage: [${process.env.ENVIRONMENT}]`)
 mongoConnection(process.env.ENVIRONMENT)
+console.log(mongoose.connection)
 
 var app = express();
 
