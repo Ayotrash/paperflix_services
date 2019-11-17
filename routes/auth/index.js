@@ -44,4 +44,8 @@ router.post('/avatar', _uploadAvatar.single('avatar'), function(req, res, next) 
     .catch(error => res.send(error))
 })
 
+router.post('/login', function(req, res, next) {
+    res.send('This is login page.')
+})
+
 module.exports = router;
