@@ -3,7 +3,7 @@ REST APIs services for Paperflix application. This project was built using Node.
 
 ### Status Code Responsers
 
-#### Informational Responsers
+#### Informational Status Codes
 
 Status Code | Name | Description
 ------------|------|------------
@@ -11,7 +11,7 @@ Status Code | Name | Description
 **101** | Switching Protocols | The requester has asked the server to switch protocols and the server is acknowledging that it will do so.
 **102** | Processing | The server has received and is processing the request, but no response is available yet.
 
-#### Success Responsers
+#### Success Status Codes
 
 Status Code | Name | Description
 ------------|------|------------
@@ -25,6 +25,21 @@ Status Code | Name | Description
 **207** | Multi-status | The message body that follows is an XML message and can contain a number of separate response codes, depending on how many sub-requests were made.
 **208** | Already reported | The members of a DAV binding have already been enumerated in a previous reply to this request, and are not being included again.
 **226** | IM Used | The server has fulfilled a `GET` request for the resource, and the response is a representation of the result of one or more instance-manipulations applied to the current instance.
+
+#### Redirection Status Codes
+
+Status Code | Name | Description
+------------|------|------------
+**300** | Multiple Choices | There are multiple options that the client may follow.
+**301** | Moved Permanently | The resource has been moved and all further requests should reference its new URI.
+**302** | Found | The HTTP 1.0 specification described this status as *Moved Temporarily*, but popular browsers respond to this status similar to behavior intended for `303`. The resource can be retrieved by referencing the returned URI.
+**303** | See Other | The resource can be retrieved by following other URI using the `GET` method. When received in response to a `POST`, `PUT`, or `DELETE`, it can usually be assumed that the server processed the request successfully and is sending the client to an informational endpoint.
+**304** | Not Modified | The resource has not been modified since the version specified in `If-Modified-Since` or `If-Match` headers. The resource will not be returned in response body.
+**305** | Use Proxy | HTTP 1.1. The resource is only available through a proxy and the address is provided in the response.
+**306** | Switch Proxy | Deprecated in HTTP 1.1. Used to mean that subsequent requests should be sent using the specified proxy.
+**307** | Temporary Redirect | HTTP 1.1. The request should be repeated with the URI provided in the response, but future requests should still call the original URI.
+**308** | Permanent Redirect | Experimental. The request and all future requests should be repeated with the URI provided in the response. The HTTP method is not allowed to be changed in the subsequent request.
+**309** | Resume Incomplete(Google) | This code is used in the Resumable HTTP Requests Proposal to resume aborted `PUT` or `POST` requests
 
 ## Consumer
 The documentation for consume this APIs.
