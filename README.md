@@ -50,7 +50,7 @@ Status Code | Name | Description
 **402** | Payment Required | Reserved for future use. Some web services use this as an indication that the client has sent an excessive number of requests.
 **403** | Forbidden | The request was formatted correctly but the server is refusing to supply the requested resource. Unlike `401`, authenticating will not make a difference in the server's response.
 **404** | Not Found | The resource could not be found. This is often used as a catch-all for all invalid URIs requested of the server.
-**405** | Method Not Allowed | The resource was requested using a method that is not allowed. For example, requesting a resource via a `POST` method when the resource only supports the GET method.
+**405** | Method Not Allowed | The resource was requested using a method that is not allowed. For example, requesting a resource via a `POST` method when the resource only supports the `GET` method.
 **406** | Not Acceptable | The resource is valid, but cannot be provided in a format specified in the `Accept` headers in the request.
 **407** | Proxy Authentication Required | Authentication is required with the proxy before requests can be fulfilled.
 **408** | Request Timeout | The server timed out waiting for a request from the client. The client is allowed to repeat the request.
@@ -99,6 +99,6 @@ Endpoints for manage authentication in Paperflix.
 
 No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code 
 ---|-----------------|-------------|--------------|-----------------
-1 | **Register** | POST | /v1/register | 201, 405
-2 | **Login** | POST | /v1/login | 200, 405
-3 | **Logout** | POST | /v1/logout | 200
+1 | **Register** | POST | /v1/register | 201, 409, 406, 500
+2 | **Login** | POST | /v1/login | 302, 401, 500
+3 | **Logout** | POST | /v1/logout | 204, 500

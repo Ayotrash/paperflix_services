@@ -15,6 +15,7 @@ const {
     success_accepted,
     client_error_not_allowed, 
     client_error_not_acceptable,
+    client_error_conflict,
     server_error_internal
 } = require('../../utils/responser')
 
@@ -86,17 +87,17 @@ exports._register = data => {
       })
       .catch(err => {
           if(err.errors.firstname) {
-              return client_error_not_allowed("First name is required.")
+              return client_error_not_acceptable("First name is required.")
           } else if(err.errors.lastname) {
-              return client_error_not_allowed("Last name is required.")
+              return client_error_not_acceptable("Last name is required.")
           } else if(err.errors.email) {
-              return client_error_not_allowed("Email is required.")
+              return client_error_not_acceptable("Email is required.")
           } else if(err.errors.password) {
-              return client_error_not_allowed("Password is required.")
+              return client_error_not_acceptable("Password is required.")
           } else if(err.errors.gender) {
-              return client_error_not_allowed("Gender is required.")
+              return client_error_not_acceptable("Gender is required.")
           } else if(err.errors["auth.email"]) {
-              return client_error_not_acceptable(`${err.errors["auth.email"].value} has already exist.`)
+              return client_error_conflict(`${err.errors["auth.email"].value} has already exist.`)
           }
 
           return err

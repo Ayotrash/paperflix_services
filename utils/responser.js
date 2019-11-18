@@ -40,8 +40,79 @@ exports.success_accepted = (message, data) => ({
 	data: data
 })
 
+exports.success_non_authoritative = (message, data) => ({
+	statusCode: 203,
+	error: false,
+	message: message,
+	data: data
+})
+
 exports.success_no_content = (message, data) => ({
 	statusCode: 204,
+	error: false,
+	message: message,
+	data: data
+})
+
+exports.success_reset_content = (message) => ({
+	statusCode: 205,
+	error: false,
+	message: message,
+	data: null
+})
+
+exports.success_partial_content = (message, data) => ({
+	statusCode: 206,
+	error: false,
+	message: message,
+	data: data
+})
+
+exports.success_multi_status = (message, data) => ({
+	statusCode: 207,
+	error: false,
+	message: message,
+	data: data
+})
+
+exports.success_already_reported = (message, data) => ({
+	statusCode: 208,
+	error: false,
+	message: message,
+	data: data
+})
+
+exports.success_IM_used = (message, data) => ({
+	statusCode: 226,
+	error: false,
+	message: message,
+	data: data
+})
+
+// REDIRECTION RESPONSE
+exports.redirection_multiple_choices = (message, data) => ({
+	statusCode: 300,
+	error: false,
+	message: message,
+	data: data
+})
+
+exports.redirection_moved_permanently = (message, data) => ({
+	statusCode: 301,
+	error: false,
+	message: message,
+	data: data
+})
+
+exports.redirection_found = (message, data) => ({
+	statusCode: 302,
+	error: false,
+	message: message,
+	data: data
+})
+
+exports.redirection_see_other = (message, data) => ({
+	statusCode: 303,
 	error: false,
 	message: message,
 	data: data
@@ -80,6 +151,18 @@ exports.client_error_not_allowed = (message) => ({
 
 exports.client_error_not_acceptable = (message) => ({
 	statusCode: 406,
+	error: true,
+	message: message
+})
+
+exports.client_error_request_timeout = (message) => ({
+	statusCode: 408,
+	error: true,
+	message: message
+})
+
+exports.client_error_conflict = (message) => ({
+	statusCode: 409,
 	error: true,
 	message: message
 })
