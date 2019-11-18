@@ -73,6 +73,22 @@ Status Code | Name | Description
 **429** | Too Many Requests | The user has sent too many requests in a given amount of time ("rate limiting").
 **431** | Request Header Fields too Large | The server is unwilling to process the request because its header fields are too large.
 
+#### Server Error Status Codes
+
+Status Code | Name | Description
+------------|------|------------
+**500** | Internal Server Error | A generic status for an error in the server itself.
+**501** | Not Implemented | The server cannot respond to the request. This usually implies that the server could possibly support the request in the future — otherwise a `4xx` status may be more appropriate.
+**502** | Bad Gateway | The server is acting as a proxy and did not receive an acceptable response from the upstream server.
+**503** | Service Unavailable | The server is down and is not accepting requests.
+**504** | Gateway Timeout | The server is acting as a proxy and did not receive a response from the upstream server.
+**505** | HTTP Version Not Supported | The server does not support the HTTP protocol version specified in the request.
+**506** | Variant Also Negotiates | Transparent content negotiation for the request results in a circular reference.
+**507** | Insufficient Storage | The user or server does not have sufficient storage quota to fulfill the request.
+**508** | Loop Detected | The server detected an infinite loop in the request.
+**510** | Not Extended | Further extensions to the request are necessary for it to be fulfilled.
+**511** | Network Authentication Required | The client must authenticate with the network before sending requests.
+
 ## Consumer
 The documentation for consume this APIs.
 
