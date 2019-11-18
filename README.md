@@ -8,6 +8,7 @@ The documentation for consume this APIs.
 Endpoints for manage authentication in Paperflix.
 
 **Authentication Services**
-| No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code |
-|----|-----------------|-------------|--------------|------------------|
-| 1 | **Register** | POST | /v1/register | 201, 500|
+
+No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code 
+---|-----------------|-------------|--------------|-----------------
+1 | **Register** | POST | /v1/register | 201, 500
