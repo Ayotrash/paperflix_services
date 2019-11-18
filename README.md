@@ -39,7 +39,39 @@ Status Code | Name | Description
 **306** | Switch Proxy | Deprecated in HTTP 1.1. Used to mean that subsequent requests should be sent using the specified proxy.
 **307** | Temporary Redirect | HTTP 1.1. The request should be repeated with the URI provided in the response, but future requests should still call the original URI.
 **308** | Permanent Redirect | Experimental. The request and all future requests should be repeated with the URI provided in the response. The HTTP method is not allowed to be changed in the subsequent request.
-**309** | Resume Incomplete(Google) | This code is used in the Resumable HTTP Requests Proposal to resume aborted `PUT` or `POST` requests
+**309** | Resume Incomplete(Google) | This code is used in the Resumable HTTP Requests Proposal to resume aborted `PUT` or `POST` requests.
+
+#### Client Error Status Codes
+
+Status Code | Name | Description
+------------|------|------------
+**400** | Bad Request | The request could not be fulfilled due to the incorrect syntax of the request.
+**401** | Unauthorized | The requester is not authorized to access the resource. This is similar to `403` but is used in cases where authentication is expected but has failed or has not been provided.
+**402** | Payment Required | Reserved for future use. Some web services use this as an indication that the client has sent an excessive number of requests.
+**403** | Forbidden | The request was formatted correctly but the server is refusing to supply the requested resource. Unlike `401`, authenticating will not make a difference in the server's response.
+**404** | Not Found | The resource could not be found. This is often used as a catch-all for all invalid URIs requested of the server.
+**405** | Method Not Allowed | The resource was requested using a method that is not allowed. For example, requesting a resource via a `POST` method when the resource only supports the GET method.
+**406** | Not Acceptable | The resource is valid, but cannot be provided in a format specified in the `Accept` headers in the request.
+**407** | Proxy Authentication Required | Authentication is required with the proxy before requests can be fulfilled.
+**408** | Request Timeout | The server timed out waiting for a request from the client. The client is allowed to repeat the request.
+**409** | Conflict | The request cannot be completed due to a conflict in the request parameters.
+**410** | Gone | The resource is no longer available at the requested URI and no redirection will be given.
+**411** | Length Required | The request did not specify the length of its content as required by the resource.
+**412** | Precondition Failed | The server does not meet one of the preconditions specified by the client.
+**413** | Request Entity to Large | The request is larger than what the server is able to process.
+**414** | Request-URI to Long |  URI provided in the request is too long for the server to process. This is often used when too much data has been encoded into the URI of a `GET` request and a `POST` request should be used instead.
+**415** | Unsupported Media Type | The client provided data with a media type that the server does not support.
+**416** | Requested Range not Satisfiable | The client has asked for a portion of the resource but the server cannot supply that portion.
+**417** | Expectation Failed | The server cannot meet the requirements of the Expect request-header field.
+**418** | I'm a Teapot | Any attempt to brew coffee with a teapot should result in the error code "418 I'm a teapot". The resulting entity body MAY be short and stout.
+**421** | Misdirected Request | The request was directed at a server that is not able to produce a response. This can be sent by a server that is not configured to produce responses for the combination of scheme and authority that are included in the request URI.
+**422** | Unprocessable Entity | The request was formatted correctly but cannot be processed in its current form. Often used when the specified parameters fail validation errors.
+**423** | Locked | The requested resource was found but has been locked and will not be returned.
+**424** | Failed Dependency | The request failed due to a failure of a previous request.
+**426** | Upgrade Required | The client should repeat the request using an upgraded protocol such as TLS 1.0.
+**428** | Precondition Required | The origin server requires the request to be conditional.
+**429** | Too Many Requests | The user has sent too many requests in a given amount of time ("rate limiting").
+**431** | Request Header Fields too Large | The server is unwilling to process the request because its header fields are too large.
 
 ## Consumer
 The documentation for consume this APIs.
