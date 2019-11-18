@@ -1,3 +1,23 @@
+// INFORMATIONAL RESPONSES
+exports.informational_continue = (message) => ({
+	statusCode: 100,
+	error: false,
+	message: message
+})
+
+exports.information_switching_protocols = (message) => ({
+	statusCode: 101,
+	error: false,
+	message: message
+})
+
+exports.information_processing = (message) => ({
+	statusCode: 102,
+	error: false,
+	message: message
+})
+
+
 // SUCCESSS RESPONSE - 2XX
 exports.success_OK = (message, data) => ({
 	statusCode: 200,
