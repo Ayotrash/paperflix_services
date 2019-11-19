@@ -2,10 +2,10 @@ const express = require('express');
 const Promise = require('bluebird');
 
 var router = express.Router();
-/* const { singleUpload } = require('../../config/mongodb-storage-connection') */
 
+const upload = require('../../utils/uploadFIleMiddleware');
 const { _register, _verify, _logout, _uploadAvatar } = require('./controller');
-const { success_created } = require('../../utils/responser')
+const { success_created, server_error_internal } = require('../../utils/responser')
 
 router.post('/register', function(req, res, next) {
     Promise.try(() => {
@@ -39,6 +39,20 @@ router.post('/avatar', _uploadAvatar.single('avatar'), function(req, res, next) 
         const uploadedAvatar = req.file
         console.log(req.file)
         return success_created('Success upload', uploadedAvatar)
+    })
+    .then(response => res.status(response.statusCode).json(response))
+    .catch(error => res.send(error))
+})
+
+router.post('/avatar2', function(req, res, next) {
+    Promise.try(() => {
+        const uploadedAvatar = upload(request, response, function(err) {
+            if(err) {
+                return server_error_internal(err)
+            }
+
+            return success_created('Success uploaded file.', req.file)
+        })
     })
     .then(response => res.status(response.statusCode).json(response))
     .catch(error => res.send(error))

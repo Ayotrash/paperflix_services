@@ -7,6 +7,7 @@ const fs     = require('fs');
 const multer = require('multer');
 const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream')
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
