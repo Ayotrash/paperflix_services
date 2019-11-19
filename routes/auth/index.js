@@ -48,17 +48,6 @@ router.post('/avatar2', upload, function(req, res, next) {
     res.send({
         data: req.file
     })
-    /* Promise.try(() => {
-        const uploadedAvatar = upload(request, response, function(err) {
-            if(err) {
-                return server_error_internal(err)
-            }
-
-            return success_created('Success uploaded file.', req.file)
-        })
-    })
-    .then(response => res.status(response.statusCode).json(response))
-    .catch(error => res.send(error)) */
 })
 
 router.post('/login', function(req, res, next) {
