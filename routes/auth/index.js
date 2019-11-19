@@ -44,8 +44,11 @@ router.post('/avatar', _uploadAvatar.single('avatar'), function(req, res, next) 
     .catch(error => res.send(error))
 })
 
-router.post('/avatar2', function(req, res, next) {
-    Promise.try(() => {
+router.post('/avatar2', upload, function(req, res, next) {
+    res.send({
+        data: req.file
+    })
+    /* Promise.try(() => {
         const uploadedAvatar = upload(request, response, function(err) {
             if(err) {
                 return server_error_internal(err)
@@ -55,7 +58,7 @@ router.post('/avatar2', function(req, res, next) {
         })
     })
     .then(response => res.status(response.statusCode).json(response))
-    .catch(error => res.send(error))
+    .catch(error => res.send(error)) */
 })
 
 router.post('/login', function(req, res, next) {

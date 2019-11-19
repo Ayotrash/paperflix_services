@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const keys = require('./keys');
+/* const keys = require('./keys'); */
 
 function mongoConnection(env) {
   if (env == 'development') {
-    mongoose.connect(keys.dev_uri, { 
+    mongoose.connect(process.env.MONGODB_SERVER_DEV, { 
       useNewUrlParser: true, 
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -11,7 +11,7 @@ function mongoConnection(env) {
     });
     console.log('MongoDB for Development was connected');
   } else {
-    mongose.connect(keys.prod_uri, { 
+    mongose.connect(process.env.MONGODB_SERVER_PROD, { 
       useNewUrlParser: true, 
       useUnifiedTopology: true,
       useCreateIndex: true,

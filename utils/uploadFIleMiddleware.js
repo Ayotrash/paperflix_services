@@ -1,11 +1,10 @@
-const mongoConnection = require('../config/mongodb-connection')
 const multer        = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 
-const mongoose = require('mongoose')
+const url = process.env.MONGODB_SERVER_DEV;
 
 const storage = new GridFsStorage({
-    url: mongoose.connection,
+    url,
     filename: function (req, file, cb) {
         const datetimestamp = Date.now();
         cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
