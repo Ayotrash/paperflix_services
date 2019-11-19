@@ -36,8 +36,7 @@ router.put('/logout', function(req, res, next) {
 
 router.post('/avatar', _uploadAvatar.single('avatar'), function(req, res, next) {
     Promise.try(() => {
-        const uploadedAvatar = req.file
-        console.log(req.file)
+        const uploadedAvatar = req.file;
         return success_created('Success upload', uploadedAvatar)
     })
     .then(response => res.status(response.statusCode).json(response))
@@ -46,8 +45,7 @@ router.post('/avatar', _uploadAvatar.single('avatar'), function(req, res, next) 
 
 router.post('/avatar2', upload, function(req, res, next) {
     Promise.try(() => {
-        const uploadedAvatar = req.file
-        console.log(req.file)
+        const uploadedAvatar = req.file;
         return success_created('Success upload', uploadedAvatar)
     })
     .then(response => res.status(response.statusCode).json(response))
