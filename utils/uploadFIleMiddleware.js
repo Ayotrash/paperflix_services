@@ -8,10 +8,10 @@ const storage = new GridFsStorage({
     options: {useNewUrlParser: true, useUnifiedTopology: true},
     file: (req, file) => {
         return {
-            filename: 'paperflix_' + Date.now()
+            filename: 'paperflix_' + Date.now(),
+            bucketName: 'avatars'
         }
-    },
-    root: 'avatars'
+    }
 })
 
 const upload = multer({ //multer settings for single upload
