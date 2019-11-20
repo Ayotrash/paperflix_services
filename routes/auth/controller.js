@@ -179,11 +179,21 @@ exports._login = data => {
             const checkedDevices = _.find(response.logged_devices, { 'device_id': data.device_id })
             
             if (checkedDevices) {
-                console.log('Update is_logged to TRUE')
+                UsersModel.findOneAndUpdate(
+                    { "logged_devices._id": checkedDevices._id },
+                    { "$set": { "logged_devices.$.is_logged": true } },
+                    function(err) {
+                        if(err) {
+                            console.log(err)
+                        }
+
+                        return
+                    }
+                )
             } else {
                 console.log('Added new device to DB')
             }
-            
+
             return success_accepted('You are log in.', response)
         }
     })
