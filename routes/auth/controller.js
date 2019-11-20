@@ -5,6 +5,7 @@ const path   = require('path');
 const ejs    = require('ejs');
 const fs     = require('fs');
 const bcrypt = require('bcrypt');
+const _      = require('lodash')
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
@@ -30,11 +31,10 @@ exports._register = data => {
         gender: data.gender,
         avatar: data.avatar,
         logged_devices: [{
-            logged_in: {
-                is_logged: true,
-                logged_at: now
-            },
-            device_info: data.device_info
+            is_logged: true,
+            logged_at: now,
+            device_name: data.device_name,
+            device_id: data.device_id
         }]
     })
 
@@ -148,7 +148,7 @@ exports._verify = token => {
 exports._logout = (userId, deviceId) => {
     const finalResult = UsersModel.findOneAndUpdate(
         { "_id": userId, "logged_devices._id": deviceId  },
-        { "$set": { "logged_devices.$.logged_in.is_logged": false } },
+        { "$set": { "logged_devices.$.is_logged": false } },
         { new: true }
     )
     .then(response => {
@@ -176,6 +176,14 @@ exports._login = data => {
         if (!comparedPassword) {
             return client_error_not_allowed('Wrong email or password.')
         } else {
+            const checkedDevices = _.find(response.logged_devices, { 'device_id': data.device_id })
+            
+            if (checkedDevices) {
+                console.log('Update is_logged to TRUE')
+            } else {
+                console.log('Added new device to DB')
+            }
+            
             return success_accepted('You are log in.', response)
         }
     })
