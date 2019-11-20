@@ -4,7 +4,7 @@ const sgMail = require('@sendgrid/mail');
 const path   = require('path');
 const ejs    = require('ejs');
 const fs     = require('fs');
-const multer = require('multer');
+const bcrypt = require('bcrypt');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
@@ -18,12 +18,14 @@ const {
 } = require('../../utils/responser')
 
 exports._register = data => {
+    const hashingPassword = bcrypt.hashSync(data.password, 10);
+
     const registeredUser = new UsersModel({
         firstname: data.firstname,
         lastname: data.lastname,
         auth: {
             email: data.email,
-            password: data.password
+            password: hashingPassword
         },
         gender: data.gender,
         avatar: data.avatar,
@@ -154,12 +156,32 @@ exports._logout = (userId, deviceId) => {
     })
     .catch(error => {
         console.log(error)
-        return server_error_internal("We're sorry, you can't log out right now because internal server error.")
+        return server_error_internal("Internal server error.")
     })
 
     return finalResult
 }
 
-exports._uploadAvatar = multer({
-    dest: 'uploads/'
-})
+exports._login = data => {
+    const returnedToken = UsersModel.findOne({
+        "auth.email": data.email 
+    })
+    .then(response => {
+        if (response == null) {
+            return client_error_not_allowed('Not found')
+        }
+        
+        const comparedPassword = bcrypt.compareSync(data.password, response.auth.password)
+
+        if (!comparedPassword) {
+            return client_error_not_allowed('Wrong email or password.')
+        } else {
+            return success_accepted('You are log in.', response)
+        }
+    })
+    .catch(error => {
+        return server_error_internal('Internal server error.')
+    })
+
+    return returnedToken
+}

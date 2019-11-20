@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 var router = express.Router();
 
 const upload = require('../../utils/uploadFIleMiddleware');
-const { _register, _verify, _logout, _uploadAvatar } = require('./controller');
+const { _register, _verify, _logout, _login } = require('./controller');
 const { success_created, server_error_internal } = require('../../utils/responser')
 
 router.post('/register', function(req, res, next) {
@@ -44,7 +44,12 @@ router.post('/avatars', upload, function(req, res, next) {
 })
 
 router.post('/login', function(req, res, next) {
-    res.send('This is login page.')
+    Promise.try(() => {
+        const logged = _login(req.body)
+        return logged
+    })
+    .then(response => res.status(response.statusCode).json(response))
+    .catch(error => res.send(error))
 })
 
 module.exports = router;
