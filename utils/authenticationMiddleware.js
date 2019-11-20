@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
         const token = req.get('Authorization').split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_KEY);
         console.log(decoded)
-        req.user_data = decoded;
+        req.tokenData = decoded;
         next();
     } catch (error) {
         return res.send(client_error_unauthorized('Please login to get a recources.'))
