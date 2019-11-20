@@ -166,7 +166,7 @@ exports._login = data => {
     const returnedToken = UsersModel.findOne({
         "auth.email": data.email 
     })
-    .then(response => {
+    .then(async response => {
         if (response == null) {
             return client_error_not_allowed('Not found')
         }
@@ -186,19 +186,45 @@ exports._login = data => {
                         if(err) {
                             console.log(err)
                         }
-
                         return
                     }
                 )
             } else {
-                console.log('Added new device to DB')
+                UsersModel.findOneAndUpdate(
+                    { "_id": response._id },
+                    { "$push": {
+                        "logged_devices": {
+                            is_logged: true,
+                            logged_at: Date.now(),
+                            device_name: data.device_name,
+                            device_id: data.device_id,
+                            detail_info: data.detail_info
+                        }
+                    }},
+                    function(err) {
+                        if(err) {
+                            console.log(err)
+                        }
+                        return
+                    }
+                )
             }
 
-            return success_accepted('You are log in.', response)
+            const loginToken = await jwt.sign({
+                email: response.email,
+                userId: response._id
+            }, process.env.JWT_KEY, { expiresIn: "3h" })
+
+            const dataPayload = await {
+                user_id: response._id,
+                token: loginToken
+            }
+
+            return success_accepted(`Welcome back, ${response.firstname}.`, dataPayload)
         }
     })
     .catch(error => {
-        return server_error_internal('Internal server error.')
+        return server_error_internal('Internal server error.', error)
     })
 
     return returnedToken
