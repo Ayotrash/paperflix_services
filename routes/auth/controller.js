@@ -229,3 +229,7 @@ exports._login = data => {
 
     return returnedToken
 }
+
+exports._forgotPassword = data => {
+    
+}
