@@ -45,6 +45,7 @@ No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code
 **Query:** No
 
 **Body:**
+
 Name | Required | Description | Default Value | Example
 -----|----------|-------------|---------------|--------
 **firstname** | required | Nama depan dari regular-user. Tipe datanya adalah `string`. | - | `Fuadit`
