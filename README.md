@@ -35,7 +35,7 @@ No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code
 3 | [Logout](#logout) | **`POST`** | /v1/logout | 204, 500
 4 | [Forgot Password](#forgot-password) | **`POST`** | /v1/forgot_password | 200, 500
 
-#### Register
+### Register
 **Register Endpoint** akan membantun kamu untuk melakukan registrasi terhadap regular-user yang ada di Paperflix. Selain itu, *endpoint* ini akan memberikan return berupa `token` dan `id` dari user yang barusan di registrasi.
 
 **Method & URL:** **`POST -> /v1/register`**
@@ -57,7 +57,7 @@ Name | Required | Description | Default Value | Example
 **device_name** | required | Nama device yang didapatkan dari plugin yang digunakan di frontend. | - | `Xiaomi Mi Max`
 **device_id** | required | Tipe data adalah `string` dan `unique`. Apabila ada `id` yang terduplikat, sistem backend akan otomatis mereplace device yang tersedia di database dengan akun yang baru. | - | `00000000-89ABCDEF-01234567-89ABCDEF`
 
-**Success Responses:**
+**Success Response:**
 ```javascript
 {
     "statusCode": 201,
