@@ -37,9 +37,13 @@ No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code
 
 #### Register
 **Register Endpoint** akan membantun kamu untuk melakukan registrasi terhadap regular-user yang ada di Paperflix. Selain itu, *endpoint* ini akan memberikan return berupa `token` dan `id` dari user yang barusan di registrasi.
+
 **Method & URL:** **`POST -> /v1/register`**
+
 **Parameters:** No
+
 **Body:** No
+
 **Query:** No
 
 Request Body
