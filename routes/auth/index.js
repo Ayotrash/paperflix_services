@@ -16,6 +16,7 @@ router.post('/register', function(req, res, next) {
     .catch(error => res.send(error))
 })
 
+// HEllo world nam is gina
 router.get('/verify', function(req, res, next) {
     Promise.try(() => {
         const verified = _verify(req.query.token)
