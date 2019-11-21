@@ -42,11 +42,9 @@ No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code
 
 **Parameters:** No
 
-**Body:** No
-
 **Query:** No
 
-Request Body
+**Body:**
 ```javascript
 {
     "firstname": "Elsa",
@@ -61,7 +59,7 @@ Request Body
 }
 ```
 
-Success Response
+**Success Responses:**
 ```javascript
 {
     "statusCode": 201,
@@ -74,7 +72,7 @@ Success Response
 }
 ```
 
-Error Response
+**Error Responses:**
 ```javascript
 {
     "statusCode": 409,
