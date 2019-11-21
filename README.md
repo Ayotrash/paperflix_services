@@ -45,19 +45,16 @@ No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code
 **Query:** No
 
 **Body:**
-```javascript
-{
-    "firstname": "Elsa",
-    "lastname": "Power",
-	"email": "elsa_power@gmail.com",
-	"password": "12345",
-	"gender": "male",
-	"avatar": "anakpadang.jpg",
-	"device_info": {
-		"name": "Xiaomi Mi Max"
-	}
-}
-```
+Name | Required | Description | Default Value | Example
+-----|----------|-------------|---------------|--------
+**firstname** | required | Nama depan dari regular-user. Tipe datanya adalah `string`. | - | `Fuadit`
+**lastname** | required | Nama belakang dari regular-user. Tipe datanya adalah `string`. | - | `Muhammad`
+**email** | required | Email dari regular-user. Ini tidak bisa di fake karena sudah menggunakan plugin dari [Postmark](https://postmarkapp.com/loves/node). Tipe datanya adalah `string`. | - |  `fuadit@email.com`
+**password** | required | Tipe datanya adalah `string`, dan password akan di hashing menggunakan bcrypt. Proses dari hashing password akan dilakukan di backend. | - | `12345`
+**gender** | required | Tipe data dari gender adalah **Enum**. Enum nya adalah `("male", "female")`. | - | `male`
+**avatar** | optional | Tipe data nya adalah `string`. Yang dimana string nya berupa id yang mereferensikan pada chunk file yang ada di table `avatars`. File avatar akan di proses melalui backend menggunakan engine [GridFS dari MongoDB](https://docs.mongodb.com/manual/core/gridfs/). | `paperflix-avatar.jpg` | `5dd3f241ab7fe202027a1a60`
+**device_name** | required | Nama device yang didapatkan dari plugin yang digunakan di frontend. | - | `Xiaomi Mi Max`
+**device_id** | required | Tipe data adalah `string` dan `unique`. Apabila ada `id` yang terduplikat, sistem backend akan otomatis mereplace device yang tersedia di database dengan akun yang baru. | - | `00000000-89ABCDEF-01234567-89ABCDEF`
 
 **Success Responses:**
 ```javascript
