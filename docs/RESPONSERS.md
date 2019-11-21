@@ -1,3 +1,6 @@
+# Paperflix's Responsers
+All about available responsers in Paperflix APIs. This documentation is usable for preference to making custom responses to Paperflix's HTTP requests.
+
 #### Informational Status Codes
 
 Status Code | Name | Description
