@@ -14,29 +14,33 @@ Berikut adalah list dari dokumentasi yang ada di project ini, untuk membantu kal
      * Deployment
      * Project Structures
 
-## Consume The API
-The documentation for consume this APIs.
+-------------------------------------------------------------------------------------
 
-### Authentication
-Endpoints for manage authentication in Paperflix.
+# Consume The API
+Berikut adalah *endpoints* yang bisa kamu pergunakan dalam membangun frontend. Endpoints akan dikelompokan kedalam masing-masing *services*. Sehingga kamu bisa mencari endpoint yang kamu inginkan di service tersebut. Misalnya; kamu membutuhkan endpoint untuk mengedit data `users`, berarti kamu bisa mencari endpoint tersebut di service Users.
+
+**Base URL**
+Production: `https://ayotrust.com`
+Development: `http://localhost:8080`
+
+## Authentication
+**Authentication Service** membantu kamu untuk melakukan beragam hal yang berurusan dengan *authentication* ataupun *authorization*. Ini adalah awal untuk kamu bisa mengakses semua sumber daya yang ada didalam project ini. Endpoint di service ini akan men-generate token ketika melakukan register atau login, untuk kamu bisa mengakses semua data atau memanggil endpoints lain.
+
+Berikut adalah endpoints yang tersedia di **Authentication Service**;
 
 No | Endpoint's Name | HTTP Method | HTTP Request | HTTP Status Code
 ---|-----------------|-------------|--------------|-----------------
-1 | **Register** | POST | /v1/register | 201, 409, 406, 500
-2 | **Login** | POST | /v1/login | 302, 401, 500
-3 | **Logout** | POST | /v1/logout | 204, 500
+1 | [Register](#register) | **`POST`** | /v1/register | 201, 409, 406, 500
+2 | [Login](#login) | **`POST`** | /v1/login | 302, 401, 500
+3 | [Logout](#logout) | **`POST`** | /v1/logout | 204, 500
+4 | [Forgot Password](#forgot-password) | **`POST`** | /v1/forgot_password | 200, 500
 
 #### Register
-
-An endpoint for make a new user or register new account.
-
-**`POST` /v1/register**
-
-Extension Name | Required | Details
----------------|----------|--------
-URL Params | No | -
-Data Params | No | -
-URL Query | No | -
+**Register Endpoint** akan membantun kamu untuk melakukan registrasi terhadap regular-user yang ada di Paperflix. Selain itu, *endpoint* ini akan memberikan return berupa `token` dan `id` dari user yang barusan di registrasi.
+**Method & URL:** **`POST -> /v1/register`**
+**Parameters:** No
+**Body:** No
+**Query:** No
 
 Request Body
 ```javascript
