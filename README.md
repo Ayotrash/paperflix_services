@@ -1,7 +1,20 @@
 # Paperflix REST APIs
-REST APIs services for Paperflix application. This project was built using Node.js and Express framework to make an endpoint and handle the responses. This documentation will be separate by two section, first, the section for consumer or user(frontend developer), and second for developer who in charge in this project.
+Selamat datang di project Paperfix APIs. Project ini bertujuan untuk memberikan service endpoint yang akan mengatur lalu-lintas data di dalam aplikasi Paperflix. Service project dibangun menggunakan bahasa Javascript yang di jalankan oleh [Node JS](https://nodejs.org/en/) sebagai Javascript Engine di sisi server. Untuk framework sendiri, kami menggunakan [Express JS](https://expressjs.com/) yang sangat luar biasa dalam pembangunan semua [method HTTP requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).
 
-## Consumer
+Berikut adalah list dari dokumentasi yang ada di project ini, untuk membantu kalian dalam menggunakan ataupun ikut berkontribusi dalam melakukan pengembangan di project ini;
+1. [API Services Architecture](https://github.com/Ayotrash/paperflix_services/blob/master/docs/RESPONSERS.md)
+2. [API Responsers](https://github.com/Ayotrash/paperflix_services/blob/master/docs/RESPONSERS.md)
+3. [Consume The API](#consume-the-api)
+     * [Authentication](#authentication)
+     * [Users](#users)
+     * Profile
+4. Contributes to Development
+     * Setup the project locally
+     * Running The Project
+     * Deployment
+     * Project Structures
+
+## Consume The API
 The documentation for consume this APIs.
 
 ### Authentication
