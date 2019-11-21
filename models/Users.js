@@ -16,11 +16,11 @@ const Users = mongoose.Schema({
     driving_license: { type: String },
     about: { type: String },
     logged_devices: [{
-        is_logged: { type: Boolean},
+        is_logged: { type: Boolean },
         logged_at: { type: Date },
         device_name: { type: String },
         device_id: { type: String },
-        detail_info: Map
+        device_detail: Map
     }],
     employments: [{
         job_title: String,

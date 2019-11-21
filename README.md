@@ -19,8 +19,10 @@ Berikut adalah list dari dokumentasi yang ada di project ini, untuk membantu kal
 # Consume The API
 Berikut adalah *endpoints* yang bisa kamu pergunakan dalam membangun frontend. Endpoints akan dikelompokan kedalam masing-masing *services*. Sehingga kamu bisa mencari endpoint yang kamu inginkan di service tersebut. Misalnya; kamu membutuhkan endpoint untuk mengedit data `users`, berarti kamu bisa mencari endpoint tersebut di service Users.
 
-**Base URL**
+**Base URL:**
+
 Production: `https://ayotrust.com`
+
 Development: `http://localhost:8080`
 
 ## Authentication
@@ -56,6 +58,7 @@ Name | Required | Description | Default Value | Example
 **avatar** | optional | Tipe data nya adalah `string`. Yang dimana string nya berupa id yang mereferensikan pada chunk file yang ada di table `avatars`. File avatar akan di proses melalui backend menggunakan engine [GridFS dari MongoDB](https://docs.mongodb.com/manual/core/gridfs/). | `paperflix-avatar.jpg` | `5dd3f241ab7fe202027a1a60`
 **device_name** | required | Nama device yang didapatkan dari plugin yang digunakan di frontend. | - | `Xiaomi Mi Max`
 **device_id** | required | Tipe data adalah `string` dan `unique`. Apabila ada `id` yang terduplikat, sistem backend akan otomatis mereplace device yang tersedia di database dengan akun yang baru. | - | `00000000-89ABCDEF-01234567-89ABCDEF`
+**device_detail** | required | Tipe data adalah `object`. Isinya bisa dinamis sesuai dengan data yang dikembalikan oleh device kepada frontend. | - | `{ rest of object... }`
 
 **Success Response:**
 ```javascript

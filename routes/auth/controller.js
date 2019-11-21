@@ -1,18 +1,18 @@
-const jwt    = require('jsonwebtoken');
-const now    = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
+const jwt = require('jsonwebtoken');
+const now = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
 const sgMail = require('@sendgrid/mail');
-const path   = require('path');
-const ejs    = require('ejs');
-const fs     = require('fs');
+const path = require('path');
+const ejs = require('ejs');
+const fs = require('fs');
 const bcrypt = require('bcrypt');
-const _      = require('lodash')
+const _ = require('lodash')
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
-const { 
-    success_created, 
+const {
+    success_created,
     success_accepted,
-    client_error_not_allowed, 
+    client_error_not_allowed,
     client_error_not_acceptable,
     client_error_conflict,
     server_error_internal
@@ -34,13 +34,14 @@ exports._register = data => {
             is_logged: true,
             logged_at: now,
             device_name: data.device_name,
-            device_id: data.device_id
+            device_id: data.device_id,
+            device_detail: data.device_detail
         }]
     })
 
     const sendEmailVerification = (userData, token) => {
         let emailPath = path.join(__dirname, '..', '..', 'templates', 'confirmation_email', 'html.ejs')
-        let emailDir  = fs.readFileSync(emailPath, { encoding: 'utf-8' })
+        let emailDir = fs.readFileSync(emailPath, { encoding: 'utf-8' })
         let emailTemplate = ejs.render(emailDir, { firstname: userData.firstname, token: `http://localhost:3000/v1/verify?token=${token}` })
 
         let msg = {
@@ -52,7 +53,7 @@ exports._register = data => {
         }
 
         return sgMail.send(msg, (err, result) => {
-            if(err) {
+            if (err) {
                 console.log(err)
             } else {
                 /* console.log(result) */
@@ -62,47 +63,47 @@ exports._register = data => {
     }
 
     const result = registeredUser.save()
-      .then(res => {
-          const registerToken = jwt.sign({
-              email: data.email,
-              userId: res._id
-          }, process.env.JWT_KEY, { expiresIn: "3h" })
+        .then(res => {
+            const registerToken = jwt.sign({
+                email: data.email,
+                userId: res._id
+            }, process.env.JWT_KEY, { expiresIn: "3h" })
 
-          const verifyAccountToken = jwt.sign({
-              email: data.email,
-              userId: res._id
-          }, process.env.JWT_KEY, { expiresIn: "1h" })
+            const verifyAccountToken = jwt.sign({
+                email: data.email,
+                userId: res._id
+            }, process.env.JWT_KEY, { expiresIn: "1h" })
 
-          const dataPayload = {
-              user_id: res._id,
-              token: registerToken
-          }
+            const dataPayload = {
+                user_id: res._id,
+                token: registerToken
+            }
 
-          sendEmailVerification(data, verifyAccountToken)
+            sendEmailVerification(data, verifyAccountToken)
 
-          return success_created(
-              `Welcome ${res.firstname}, don't forget to confirmation your email.`,
-              dataPayload
-          )
-      })
-      .catch(err => {
-          if(err.errors.firstname) {
-              return client_error_not_acceptable("First name is required.")
-          } else if(err.errors.lastname) {
-              return client_error_not_acceptable("Last name is required.")
-          } else if(err.errors.email) {
-              return client_error_not_acceptable("Email is required.")
-          } else if(err.errors.password) {
-              return client_error_not_acceptable("Password is required.")
-          } else if(err.errors.gender) {
-              return client_error_not_acceptable("Gender is required.")
-          } else if(err.errors["auth.email"]) {
-              return client_error_conflict(`${err.errors["auth.email"].value} has already exist.`)
-          }
+            return success_created(
+                `Welcome ${res.firstname}, don't forget to confirmation your email.`,
+                dataPayload
+            )
+        })
+        .catch(err => {
+            if (err.errors.firstname) {
+                return client_error_not_acceptable("First name is required.")
+            } else if (err.errors.lastname) {
+                return client_error_not_acceptable("Last name is required.")
+            } else if (err.errors.email) {
+                return client_error_not_acceptable("Email is required.")
+            } else if (err.errors.password) {
+                return client_error_not_acceptable("Password is required.")
+            } else if (err.errors.gender) {
+                return client_error_not_acceptable("Gender is required.")
+            } else if (err.errors["auth.email"]) {
+                return client_error_conflict(`${err.errors["auth.email"].value} has already exist.`)
+            }
 
-          return err
-      })
-    
+            return err
+        })
+
     return result
 }
 
@@ -110,8 +111,8 @@ exports._verify = token => {
     console.log("Calling verify!")
 
     const checkToken = () => {
-        let decoded = jwt.verify(token, process.env.JWT_KEY, function(err, res) {
-            if(err) {
+        let decoded = jwt.verify(token, process.env.JWT_KEY, function (err, res) {
+            if (err) {
                 return err
             } else {
                 return res
@@ -131,15 +132,15 @@ exports._verify = token => {
             { is_verified: true },
             { new: true }
         )
-        .then(response => {
-            let dataPayload = {
-                is_verified: response.is_verified
-            }
-            return success_accepted('You have been verified your email.', dataPayload)
-        })
-        .catch(error => {
-            return client_error_not_allowed('Error')
-        })
+            .then(response => {
+                let dataPayload = {
+                    is_verified: response.is_verified
+                }
+                return success_accepted('You have been verified your email.', dataPayload)
+            })
+            .catch(error => {
+                return client_error_not_allowed('Error')
+            })
 
         return finalResult
     }
@@ -147,89 +148,91 @@ exports._verify = token => {
 
 exports._logout = (userId, deviceId) => {
     const finalResult = UsersModel.findOneAndUpdate(
-        { "_id": userId, "logged_devices._id": deviceId  },
+        { "_id": userId, "logged_devices._id": deviceId },
         { "$set": { "logged_devices.$.is_logged": false } },
         { new: true }
     )
-    .then(response => {
-        return success_accepted(`Success logged out from device id: ${deviceId}`, null)
-    })
-    .catch(error => {
-        console.log(error)
-        return server_error_internal("Internal server error.")
-    })
+        .then(response => {
+            return success_accepted(`Success logged out from device id: ${deviceId}`, null)
+        })
+        .catch(error => {
+            console.log(error)
+            return server_error_internal("Internal server error.")
+        })
 
     return finalResult
 }
 
 exports._login = data => {
     const returnedToken = UsersModel.findOne({
-        "auth.email": data.email 
+        "auth.email": data.email
     })
-    .then(async response => {
-        if (response == null) {
-            return client_error_not_allowed('Not found')
-        }
-        
-        const comparedPassword = bcrypt.compareSync(data.password, response.auth.password)
+        .then(async response => {
+            if (response == null) {
+                return client_error_not_allowed('Not found')
+            }
 
-        if (!comparedPassword) {
-            return client_error_not_allowed('Wrong email or password.')
-        } else {
-            const checkedDevices = _.find(response.logged_devices, { 'device_id': data.device_id })
-            
-            if (checkedDevices) {
-                UsersModel.findOneAndUpdate(
-                    { "logged_devices._id": checkedDevices._id },
-                    { "$set": { "logged_devices.$.is_logged": true } },
-                    function(err) {
-                        if(err) {
-                            console.log(err)
-                        }
-                        return
-                    }
-                )
+            const comparedPassword = bcrypt.compareSync(data.password, response.auth.password)
+
+            if (!comparedPassword) {
+                return client_error_not_allowed('Wrong email or password.')
             } else {
-                UsersModel.findOneAndUpdate(
-                    { "_id": response._id },
-                    { "$push": {
-                        "logged_devices": {
-                            is_logged: true,
-                            logged_at: Date.now(),
-                            device_name: data.device_name,
-                            device_id: data.device_id,
-                            detail_info: data.detail_info
+                const checkedDevices = _.find(response.logged_devices, { 'device_id': data.device_id })
+
+                if (checkedDevices) {
+                    UsersModel.findOneAndUpdate(
+                        { "logged_devices._id": checkedDevices._id },
+                        { "$set": { "logged_devices.$.is_logged": true } },
+                        function (err) {
+                            if (err) {
+                                console.log(err)
+                            }
+                            return
                         }
-                    }},
-                    function(err) {
-                        if(err) {
-                            console.log(err)
+                    )
+                } else {
+                    UsersModel.findOneAndUpdate(
+                        { "_id": response._id },
+                        {
+                            "$push": {
+                                "logged_devices": {
+                                    is_logged: true,
+                                    logged_at: Date.now(),
+                                    device_name: data.device_name,
+                                    device_id: data.device_id,
+                                    device_detail: data.device_detail
+                                }
+                            }
+                        },
+                        function (err) {
+                            if (err) {
+                                console.log(err)
+                            }
+                            return
                         }
-                        return
-                    }
-                )
+                    )
+                }
+
+                const loginToken = await jwt.sign({
+                    email: response.email,
+                    userId: response._id
+                }, process.env.JWT_KEY, { expiresIn: "3h" })
+
+                const dataPayload = await {
+                    user_id: response._id,
+                    token: loginToken
+                }
+
+                return success_accepted(`Welcome back, ${response.firstname}.`, dataPayload)
             }
-
-            const loginToken = await jwt.sign({
-                email: response.email,
-                userId: response._id
-            }, process.env.JWT_KEY, { expiresIn: "3h" })
-
-            const dataPayload = await {
-                user_id: response._id,
-                token: loginToken
-            }
-
-            return success_accepted(`Welcome back, ${response.firstname}.`, dataPayload)
-        }
-    })
-    .catch(error => {
-        return server_error_internal('Internal server error.', error)
-    })
+        })
+        .catch(error => {
+            return server_error_internal('Internal server error.', error)
+        })
 
     return returnedToken
 }
 
 exports._forgotPassword = data => {
-    
+
 }
