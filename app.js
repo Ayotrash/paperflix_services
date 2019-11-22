@@ -1,8 +1,8 @@
 require('dotenv').config()
-var express      = require('express');
+var express = require('express');
 var cookieParser = require('cookie-parser');
-var logger       = require('morgan');
-var createError  = require('http-errors');
+var logger = require('morgan');
+var createError = require('http-errors');
 
 var authenticationMiddleware = require('./utils/authenticationMiddleware')
 var mongoConnection = require('./config/mongodb-connection')
@@ -23,11 +23,11 @@ app.use(cookieParser());
 app.use('/v1', authRouter);
 app.use('/v1', authenticationMiddleware, usersRouter);
 
-app.use(function(req, res, next) {
-    next(createError(404, 'Recources not found.'))
+app.use(function (req, res, next) {
+    next(createError(404, 'Recources not found.'));
 })
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 

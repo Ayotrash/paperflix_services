@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
-const now = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
+const now = require('moment-timezone')().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss");
 const sgMail = require('@sendgrid/mail');
 const path = require('path');
 const ejs = require('ejs');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
-const _ = require('lodash')
+const _ = require('lodash');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const UsersModel = require('../../models/Users');
@@ -16,7 +16,7 @@ const {
     client_error_not_acceptable,
     client_error_conflict,
     server_error_internal
-} = require('../../utils/responser')
+} = require('../../utils/responser');
 
 exports._register = data => {
     const hashingPassword = bcrypt.hashSync(data.password, 10);
