@@ -21,12 +21,13 @@ describe('AUTHENTICATION', function () {
             device_id: faker.random.uuid
         }
         it("Should be statusCode: 201", done => {
+            console.log(server)
             chai.request(server)
                 .post('/v1/register')
                 .send(body)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    console.log("Response Body: ", res)
+                    console.log("Response Body: ", res.statusCode)
                 })
             done()
         })
