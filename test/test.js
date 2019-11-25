@@ -1,14 +1,15 @@
 const assert = require('assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../app.js');
 const faker = require('faker');
 
+const server = require('../app.js');
+const authRouter = require('../routes/auth')
 const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('AUTHENTICATION', function () {
+/* describe('AUTHENTICATION', function () {
     describe('/register', function () {
         const body = {
             firstname: faker.name.firstname,
@@ -32,4 +33,4 @@ describe('AUTHENTICATION', function () {
             done()
         })
     })
-})
+}) */
