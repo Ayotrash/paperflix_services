@@ -13,12 +13,12 @@ describe('AUTHENTICATION SERVICES', function () {
     describe('/register', function () {
 
         const body = {
-            firstname: "Ridwan",
-            lastname: "Aditya",
-            email: "muhammadfuaditrockz@gmail.com",
+            firstname: faker.name.firstName(),
+            lastname: faker.name.lastName(),
+            email: faker.internet.email(),
             password: "123",
             gender: "female",
-            avatar: "HEleh.jpg",
+            avatar: faker.system.fileName(),
             device_name: "Iphone X",
             device_id: "122212"
         }
