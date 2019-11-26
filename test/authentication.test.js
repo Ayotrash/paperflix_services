@@ -24,14 +24,23 @@ describe('AUTHENTICATION SERVICES', function () {
         }
 
         it('Should be statusCode: 201', done => {
+            let response;
             chai.request(apiUrl)
                 .post('/v1/register')
                 .send(body)
                 .end((err, res) => {
                     expect(res).to.have.status(201);
-                    console.log("Response: ", res.body)
+                    expect(res).to.have.body.message()
+                    response = res.body
                 })
+
+            it(`Response: ${response}`, done => {
+                done();
+            })
+
             done();
         })
+
+
     })
 })
