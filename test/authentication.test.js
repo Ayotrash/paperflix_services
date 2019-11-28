@@ -23,24 +23,20 @@ describe('AUTHENTICATION SERVICES', function () {
             device_id: "122212"
         }
 
-        it('Should be statusCode: 201', done => {
-            let response;
-            chai.request(apiUrl)
-                .post('/v1/register')
-                .send(body)
-                .end((err, res) => {
-                    expect(res).to.have.status(201);
-                    expect(res).to.have.body.message()
-                    response = res.body
-                })
+        context('Test endpoints.', function () {
+            it('Should be statusCode: 201', done => {
+                let response;
+                chai.request(apiUrl)
+                    .post('/v1/register')
+                    .send(body)
+                    .end((err, res) => {
+                        expect(res).to.have.status(201);
+                        response = res.body
+                    })
 
-            it(`Response: ${response}`, done => {
                 done();
             })
-
-            done();
         })
-
 
     })
 })
