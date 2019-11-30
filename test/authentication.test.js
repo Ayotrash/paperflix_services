@@ -23,6 +23,8 @@ describe('AUTHENTICATION SERVICES', function () {
             device_id: "122212"
         }
 
+        console.log(body)
+
         context('Test endpoints.', function () {
             it('Should be statusCode: 201', done => {
                 let response;
