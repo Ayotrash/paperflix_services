@@ -5,7 +5,7 @@ var router = express.Router();
 
 const upload = require('../../utils/uploadFIleMiddleware');
 const { _register, _verify, _logout, _login, _forgotPassword } = require('./controller');
-const { success_created, server_error_internal } = require('../../utils/responser')
+const { success_created } = require('../../utils/responser')
 
 router.post('/register', function (req, res, next) {
     Promise.try(() => {
